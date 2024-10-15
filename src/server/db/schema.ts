@@ -40,5 +40,5 @@ export const posts = createTable(
 
 export const image = pgTable("image", {
   id: serial("id").primaryKey(),
-  imageUrl: varchar("image_url", { length: 256 }),
+  imageUrl: varchar("image_url", { length: 1000 }),
 });
