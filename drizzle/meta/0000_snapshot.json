@@ -1,16 +1,16 @@
 {
-  "id": "62ece9ab-bdcf-420e-95af-05f9c95be739",
+  "id": "047588b4-2c7e-4b55-8b26-4e5e3d4e19a7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.productionwiththeo_post": {
-      "name": "productionwiththeo_post",
+    "public.post": {
+      "name": "post",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true
         },
