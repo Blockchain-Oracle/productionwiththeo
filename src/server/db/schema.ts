@@ -25,20 +25,16 @@ export const posts = createTable(
   "post",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
       () => new Date(),
     ),
+    imageUrl: varchar("image_url", { length: 1000 }).notNull(),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
   }),
 );
-
-export const image = pgTable("image", {
-  id: serial("id").primaryKey(),
-  imageUrl: varchar("image_url", { length: 1000 }),
-});
