@@ -3,7 +3,7 @@ import { db } from "~/server/db";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
-  const mockImage = await db.query.image.findMany();
+  const mockImage = await db.query.posts.findMany();
   console.log(mockImage);
   const mock = mockImage.map((image, index) => ({
     id: index + 1,
