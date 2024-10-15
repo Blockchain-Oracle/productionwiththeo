@@ -8,5 +8,6 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
+  out: "./supabase/migrations",
   tablesFilter: ["productionwiththeo_*"],
 } satisfies Config;
