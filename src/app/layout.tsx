@@ -2,6 +2,11 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import "@uploadthing/react/styles.css";
+import { extractRouterConfig } from "uploadthing/server";
+
+import { ourFileRouter } from "~/app/api/uploadthing/core";
+
 import {
   ClerkProvider,
   SignInButton,
@@ -9,6 +14,8 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { UploadButton } from "~/styles/utils/uploadthing";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
 export const metadata: Metadata = {
   title: "production with theo",
@@ -28,6 +35,16 @@ export default function RootLayout({
         <SignedIn>
           <UserButton />
         </SignedIn>
+        {/* <UploadButton endpoint="imageUploader" /> */}
+        <NextSSRPlugin
+          /**
+           * The `extractRouterConfig` will extract **only** the route configs
+           * from the router to prevent additional information from being
+           * leaked to the client. The data passed to the client is the same
+           * as if you were to fetch `/api/uploadthing` directly.
+           */
+          routerConfig={extractRouterConfig(ourFileRouter)}
+        />
         <body>{children}</body>
       </ClerkProvider>
     </html>

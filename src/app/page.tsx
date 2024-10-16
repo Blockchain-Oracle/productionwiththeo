@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { db } from "~/server/db";
+import { UploadButton, UploadDropzone } from "~/styles/utils/uploadthing";
+import TopBar from "./_component/topBar";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
@@ -11,6 +13,9 @@ export default async function HomePage() {
   }));
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <div>
+        <TopBar />
+      </div>
       <div className="flex flex-col gap-x-4 gap-y-8 space-y-3 sm:flex-row">
         {[...mock, ...mock, ...mock].map((item) => (
           <>
