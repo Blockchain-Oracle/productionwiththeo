@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import "@uploadthing/react/styles.css";
 import { extractRouterConfig } from "uploadthing/server";
-
+import { CSPostHogProvider } from "./_analytics/providers";
 import { ourFileRouter } from "~/app/api/uploadthing/core";
 
 import {
@@ -29,23 +29,25 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <ClerkProvider>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-        {/* <UploadButton endpoint="imageUploader" /> */}
-        <NextSSRPlugin
-          /**
-           * The `extractRouterConfig` will extract **only** the route configs
-           * from the router to prevent additional information from being
-           * leaked to the client. The data passed to the client is the same
-           * as if you were to fetch `/api/uploadthing` directly.
-           */
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
-        <body>{children}</body>
+        <CSPostHogProvider>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          {/* <UploadButton endpoint="imageUploader" /> */}
+          <NextSSRPlugin
+            /**
+             * The `extractRouterConfig` will extract **only** the route configs
+             * from the router to prevent additional information from being
+             * leaked to the client. The data passed to the client is the same
+             * as if you were to fetch `/api/uploadthing` directly.
+             */
+            routerConfig={extractRouterConfig(ourFileRouter)}
+          />
+          <body>{children}</body>
+        </CSPostHogProvider>
       </ClerkProvider>
     </html>
   );
