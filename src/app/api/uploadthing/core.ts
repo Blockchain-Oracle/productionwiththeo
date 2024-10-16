@@ -1,6 +1,8 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { auth } from "@clerk/nextjs/server";
+import { db } from "~/server/db";
+import { posts } from "~/server/db/schema";
 const f = createUploadthing();
 
 // FileRouter for your app, can contain multiple FileRoutes
@@ -21,7 +23,11 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
       console.log("Upload complete for userId:", metadata.userId);
-
+      await db.insert(posts).values({
+        name: file.name,
+        userId: metadata.userId,
+        imageUrl: file.url,
+      });
       console.log("file url", file.url); // URL to the uploaded file
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback

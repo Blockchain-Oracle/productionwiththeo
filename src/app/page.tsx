@@ -2,10 +2,11 @@ import Image from "next/image";
 import { db } from "~/server/db";
 import { UploadButton, UploadDropzone } from "~/styles/utils/uploadthing";
 import TopBar from "./_component/topBar";
+import { getImage } from "~/server/db/queries";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
-  const mockImage = await db.query.posts.findMany();
+  const mockImage = await getImage();
   console.log(mockImage);
   const mock = mockImage.map((image, index) => ({
     id: index + 1,

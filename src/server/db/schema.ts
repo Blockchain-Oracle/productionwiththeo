@@ -33,6 +33,7 @@ export const posts = createTable(
       () => new Date(),
     ),
     imageUrl: varchar("image_url", { length: 1000 }).notNull(),
+    userId: varchar("userId", { length: 256 }).notNull(),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
