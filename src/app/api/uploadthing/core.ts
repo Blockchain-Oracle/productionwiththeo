@@ -3,6 +3,7 @@ import { UploadThingError } from "uploadthing/server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "~/server/db";
 import { posts } from "~/server/db/schema";
+import { ratelimit } from "~/server/ratelimit";
 const f = createUploadthing();
 
 // FileRouter for your app, can contain multiple FileRoutes
@@ -16,6 +17,14 @@ export const ourFileRouter = {
       console.log(user);
       // If you throw, the user will not be able to upload
       if (!user.userId) throw new UploadThingError("Unauthorized");
+      // Use a constant string to limit all requests with a single ratelimit
+      // Or use a userID, apiKey or ip address for individual limits.
+      const identifier = user.userId;
+      const { success } = await ratelimit.limit(identifier);
+
+      if (!success) {
+        throw new Error("Rate limit exceeded");
+      }
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: user.userId };

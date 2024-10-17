@@ -3,12 +3,30 @@ import { db } from "~/server/db";
 import { UploadButton, UploadDropzone } from "~/styles/utils/uploadthing";
 import TopBar from "./_component/topBar";
 import { getImage } from "~/server/db/queries";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
+  const user = auth();
+  if (!user.userId) {
+    redirect("/sign-in");
+  }
   const mockImage = await getImage();
-  console.log(mockImage);
-  const mock = mockImage.map((image, index) => ({
+  if (mockImage && mockImage?.length === 0) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+        <div>
+          <TopBar />
+        </div>
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <h1 className="text-2xl font-bold">No Image Found</h1>
+          <UploadDropzone endpoint="imageUploader" />
+        </div>
+      </main>
+    );
+  }
+  const mock = mockImage?.map((image, index) => ({
     id: index + 1,
     image,
   }));
