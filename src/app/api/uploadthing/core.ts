@@ -1,6 +1,6 @@
+import { auth } from "@clerk/nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
-import { auth } from "@clerk/nextjs/server";
 import { db } from "~/server/db";
 import { posts } from "~/server/db/schema";
 import { ratelimit } from "~/server/ratelimit";
@@ -11,10 +11,10 @@ export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
   imageUploader: f({ image: { maxFileSize: "4MB" } })
     // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
+    .middleware(async ({ req, res }) => {
       // This code runs on your server before upload
       const user = auth();
-      console.log(user);
+      // console.log(user);
       // If you throw, the user will not be able to upload
       if (!user.userId) throw new UploadThingError("Unauthorized");
       // Use a constant string to limit all requests with a single ratelimit
@@ -23,7 +23,7 @@ export const ourFileRouter = {
       const { success } = await ratelimit.limit(identifier);
 
       if (!success) {
-        throw new Error("Rate limit exceeded");
+        console.log("not satisfies");
       }
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`

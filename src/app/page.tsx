@@ -5,6 +5,7 @@ import TopBar from "./_component/topBar";
 import { getImage } from "~/server/db/queries";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import NomockImage from "./_noMockImageComponet/NomockImage";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
@@ -13,18 +14,11 @@ export default async function HomePage() {
     redirect("/sign-in");
   }
   const mockImage = await getImage();
+
   if (mockImage && mockImage?.length === 0) {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div>
-          <TopBar />
-        </div>
-        <div className="flex flex-col items-center justify-center space-y-4">
-          <h1 className="text-2xl font-bold">No Image Found</h1>
-          <UploadDropzone endpoint="imageUploader" />
-        </div>
-      </main>
-    );
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <NomockImage />
+    </main>;
   }
   const mock = mockImage?.map((image, index) => ({
     id: index + 1,
@@ -36,7 +30,7 @@ export default async function HomePage() {
         <TopBar />
       </div>
       <div className="flex flex-col gap-x-4 gap-y-8 space-y-3 sm:flex-row">
-        {[...mock, ...mock, ...mock].map((item) => (
+        {[...mock!, ...mock!, ...mock!].map((item) => (
           <>
             <div
               key={item.id}
