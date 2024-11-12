@@ -1,14 +1,21 @@
 "use client";
-import { UploadButton, UploadDropzone } from "~/styles/utils/uploadthing";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { UploadButton } from "~/styles/utils/uploadthing";
 
 function TopBar() {
   return (
     <div className="flex bg-fuchsia-800 p-4">
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
       <UploadButton
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           // Do something with the response
-          console.log("Files: ", res);
+          console.log("Files: ", res[0]?.serverData.uploadedBy);
           alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {

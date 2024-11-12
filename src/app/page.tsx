@@ -1,13 +1,12 @@
-import Image from "next/image";
-import { db } from "~/server/db";
-import { UploadButton, UploadDropzone } from "~/styles/utils/uploadthing";
-import TopBar from "./_component/topBar";
-import { getImage } from "~/server/db/queries";
+// export const dynamic = "force-dynamic";
+
 import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
 import { redirect } from "next/navigation";
+import { getImage } from "~/server/db/queries";
+import TopBar from "./_component/topBar";
 import NomockImage from "./_noMockImageComponet/NomockImage";
 
-export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const user = auth();
   if (!user.userId) {
